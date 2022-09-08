@@ -1,10 +1,20 @@
 package nl.hu.sd.tennis.domain;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
+@Entity(name = "games")
 public class Game {
-    private HashMap<Player, ArrayList<Point>> pointsOfPlayers;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private long gameId;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    private Map<Player, ArrayList<Point>> pointsOfPlayers;
+
+    public Game() {}
 
     public Game(Player player1, Player player2) {
         this.pointsOfPlayers = new HashMap<>();
