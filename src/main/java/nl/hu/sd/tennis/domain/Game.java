@@ -4,16 +4,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Game {
-    private Status status;
-    private HashMap<ArrayList<Point>, ArrayList<Point>> rounds = new HashMap<>();
-    private Player player1;
-    private Player player2;
-
+    private HashMap<Player, ArrayList<Point>> pointsOfPlayers;
 
     public Game(Player player1, Player player2) {
-        this.status = Status.PLAYING;
-        this.player1 = player1;
-        this.player2 = player2;
+        this.pointsOfPlayers = new HashMap<>();
+        ArrayList<Point> pointsofPlayer1 = new ArrayList<>();
+        pointsofPlayer1.add(new Point());
+        ArrayList<Point> pointsofPlayer2 = new ArrayList<>();
+        pointsofPlayer2.add(new Point());
+        this.pointsOfPlayers.put(player1, pointsofPlayer1);
+        this.pointsOfPlayers.put(player2, pointsofPlayer2);
+    }
+
+    public boolean addPointToPlayer(Player player) {
+        if (this.pointsOfPlayers.containsKey(player)) {
+            return this.pointsOfPlayers.get(player).get(-1).increment();
+        }
+        return false;
     }
 
 
