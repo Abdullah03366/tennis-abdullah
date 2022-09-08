@@ -58,31 +58,49 @@ public class Game implements Serializable {
         return gameId;
     }
 
-    public Point getLastPointOfPlayer1() {
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    public List<Point> getPointsOfPlayer1() {
+        return pointsOfPlayer1;
+    }
+
+    public Point lastPointOfPlayer1() {
         return this.pointsOfPlayer1.get(pointsOfPlayer1.size() - 1);
     }
 
-    public Point getLastPointOfPlayer2() {
+    public Player getPlayer2() {
+        return player2;
+    }
+
+    public List<Point> getPointsOfPlayer2() {
+        return pointsOfPlayer2;
+    }
+
+    public Point lastPointOfPlayer2() {
         return this.pointsOfPlayer2.get(pointsOfPlayer2.size() - 1);
     }
 
     public GameStatus calculateScoreOfGame(Player player) {
         addPointToPlayer(player);
 
-        int player1Point = getLastPointOfPlayer1().getScore();
-        int player2Point = getLastPointOfPlayer2().getScore();
+        int player1Point = lastPointOfPlayer1().getScore();
+        int player2Point = lastPointOfPlayer2().getScore();
         int diffPlayerScores = player1Point - player2Point;
 
-        if (player1Point == 3 && player2Point == 3 ) {
-            getLastPointOfPlayer1().setCall("deuce");
-            getLastPointOfPlayer2().setCall("deuce");
+        if ((player1Point >= 3 && player2Point >= 3) && player1Point == player2Point ) {
+            lastPointOfPlayer1().setCall("deuce");
+            lastPointOfPlayer2().setCall("deuce");
             return this.status = GameStatus.DEUCE;
         }
         if (this.status == GameStatus.DEUCE && diffPlayerScores != 0) {
             if (diffPlayerScores == 1) {
-                getLastPointOfPlayer1().setCall("advantage");
+                lastPointOfPlayer1().setCall("advantage");
+                lastPointOfPlayer2().setCall("40");
             } else {
-                getLastPointOfPlayer2().setCall("advantage");
+                lastPointOfPlayer2().setCall("advantage");
+                lastPointOfPlayer1().setCall("40");
             }
             return this.status = GameStatus.ADVANTAGE;
         }
@@ -92,10 +110,11 @@ public class Game implements Serializable {
         if ((player2Point > 3 && player1Point <= 2) || (this.status == GameStatus.ADVANTAGE && diffPlayerScores == -2)) {
             return this.status = GameStatus.PLAYER2_WON_GAME;
         }
-        return null;
+        return this.status;
     }
 
     public GameStatus getStatus() {
         return status;
     }
+
 }

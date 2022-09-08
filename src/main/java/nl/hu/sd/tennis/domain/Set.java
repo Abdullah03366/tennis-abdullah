@@ -78,9 +78,13 @@ public class Set implements Serializable {
         GameStatus gameStatus = deterMineResultOfSet(player);
         if (gameStatus.equals(GameStatus.PLAYER1_WON_GAME)) {
             this.scorePlayer1++;
+            Game mostRecentGame = this.games.get(games.size() - 1);
+            this.games.add(new Game(mostRecentGame.getPlayer1(), mostRecentGame.getPlayer2()));
         }
         if (gameStatus.equals(GameStatus.PLAYER2_WON_GAME)) {
             this.scorePlayer2++;
+            Game mostRecentGame = this.games.get(games.size() - 1);
+            this.games.add(new Game(mostRecentGame.getPlayer1(), mostRecentGame.getPlayer2()));
         }
         return this.status;
     }

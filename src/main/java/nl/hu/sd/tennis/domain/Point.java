@@ -21,6 +21,10 @@ public class Point implements Serializable {
         return score;
     }
 
+    public void setScore(int score) {
+        this.score = score;
+    }
+
     public String getCall() {
         return call;
     }

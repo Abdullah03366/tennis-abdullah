@@ -6,6 +6,7 @@ import nl.hu.sd.tennis.domain.Set;
 import nl.hu.sd.tennis.domain.exception.PlayerNotFoundException;
 import nl.hu.sd.tennis.domain.exception.SetAlreadyEndedException;
 import nl.hu.sd.tennis.domain.exception.SetNotFoundException;
+import nl.hu.sd.tennis.presentation.dto.PlayerIdDTO;
 import nl.hu.sd.tennis.presentation.dto.SetDTO;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +32,8 @@ public class SetService {
         return this.setRepository.save(set);
     }
 
-    public Set addPointToPlayer(long setId, long playerId) throws SetNotFoundException, PlayerNotFoundException, SetAlreadyEndedException {
-        Player player = playerService.findPlayerById(playerId);
+    public Set addPointToPlayer(long setId, PlayerIdDTO playerIdDTO) throws SetNotFoundException, PlayerNotFoundException, SetAlreadyEndedException {
+        Player player = playerService.findPlayerById(playerIdDTO.playerId);
         Set set = setRepository.findBySetId(setId).orElseThrow(SetNotFoundException::new);
         set.addPoint(player);
         return this.setRepository.save(set);
