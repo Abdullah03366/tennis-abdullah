@@ -23,9 +23,9 @@ public class PlayerService {
         return this.playerRepository.save(player);
     }
 
-    public Player setPlayer(PlayerDTO playerDTO, long id) throws PlayerNotFoundException {
+    public Player setPlayer(String playerName, long id) throws PlayerNotFoundException {
         Player player = this.playerRepository.findByPlayerId(id).orElseThrow(PlayerNotFoundException::new);
-        player.setName(playerDTO.name);
+        player.setName(playerName);
         return player;
     }
 

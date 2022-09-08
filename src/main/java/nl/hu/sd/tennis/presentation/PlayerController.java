@@ -32,7 +32,7 @@ public class PlayerController {
     @PutMapping("/{id}")
     public Player updatePlayer(@RequestBody PlayerDTO playerDTO, @PathVariable long id) {
         try {
-            return playerService.setPlayer(playerDTO, id);
+            return playerService.setPlayer(playerDTO.name, id);
         } catch (PlayerNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }

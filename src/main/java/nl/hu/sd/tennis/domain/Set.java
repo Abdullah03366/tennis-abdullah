@@ -6,7 +6,6 @@ import org.hibernate.annotations.Cascade;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @Entity(name = "sets")
@@ -74,7 +73,7 @@ public class Set implements Serializable {
         return this.games.add(game);
     }
 
-    public GameStatus addPoint(Player player) throws SetAlreadyEndedException {
+    public void addPoint(Player player) throws SetAlreadyEndedException {
         GameStatus gameStatus = deterMineResultOfSet(player);
         if (gameStatus.equals(GameStatus.PLAYER1_WON_GAME)) {
             this.scorePlayer1++;
@@ -86,7 +85,6 @@ public class Set implements Serializable {
             Game mostRecentGame = this.games.get(games.size() - 1);
             this.games.add(new Game(mostRecentGame.getPlayer1(), mostRecentGame.getPlayer2()));
         }
-        return this.status;
     }
 
     public GameStatus deterMineResultOfSet(Player player) throws SetAlreadyEndedException {

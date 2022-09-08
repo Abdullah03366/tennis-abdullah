@@ -25,7 +25,7 @@ public class SetController {
     @PostMapping("/new")
     public Set newSet(@RequestBody SetDTO setDTO) {
         try {
-            return setService.newSet(setDTO);
+            return setService.newSet(setDTO.player1Id);
         } catch (PlayerNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
@@ -34,7 +34,7 @@ public class SetController {
     @PutMapping("/{id}")
     public Set addPointToPlayer(@RequestBody PlayerIdDTO playerIdDTO, @PathVariable long id) {
         try {
-            return setService.addPointToPlayer(id, playerIdDTO);
+            return setService.addPointToPlayer(id, playerIdDTO.playerId);
         } catch (SetNotFoundException | PlayerNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (SetAlreadyEndedException e) {
