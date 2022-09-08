@@ -9,8 +9,8 @@ public class Point implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long pointId;
 
-    public int score;
-    public String call;
+    private int score;
+    private String call;
 
     public Point() {
         this.score = 0;
@@ -25,6 +25,10 @@ public class Point implements Serializable {
         return call;
     }
 
+    public void setCall(String call) {
+        this.call = call;
+    }
+
     public void scoreCall() {
         switch (score) {
             case 1 -> call = "15";
@@ -33,9 +37,8 @@ public class Point implements Serializable {
         }
     }
 
-    public boolean increment() {
+    public void increment() {
         this.score++;
         scoreCall();
-        return true;
     }
 }

@@ -1,5 +1,6 @@
 package nl.hu.sd.tennis.domain;
 
+import nl.hu.sd.tennis.domain.exception.SetAlreadyEndedException;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -21,14 +22,7 @@ public class Set implements Serializable {
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<Game> games;
 
-    @OneToOne
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    private Player player1;
     private int scorePlayer1;
-
-    @OneToOne
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    private Player player2;
     private int scorePlayer2;
 
     public Set() {}
@@ -37,9 +31,7 @@ public class Set implements Serializable {
         this.games = new ArrayList<>();
         this.status = GameStatus.PLAYING;
 
-        this.player1 = player1;
         this.scorePlayer1 = 0;
-        this.player2 = player2;
         this.scorePlayer2 = 0;
 
         Game game = new Game(player1, player2);
@@ -62,10 +54,6 @@ public class Set implements Serializable {
         this.status = status;
     }
 
-    public Player getPlayer1() {
-        return player1;
-    }
-
     public int getScorePlayer1() {
         return scorePlayer1;
     }
@@ -74,15 +62,42 @@ public class Set implements Serializable {
         this.scorePlayer1 = scorePlayer1;
     }
 
-    public Player getPlayer2() {
-        return player2;
-    }
-
     public int getScorePlayer2() {
         return scorePlayer2;
     }
 
     public void setScorePlayer2(int scorePlayer2) {
         this.scorePlayer2 = scorePlayer2;
+    }
+
+    public boolean addGame(Game game) {
+        return this.games.add(game);
+    }
+
+    public GameStatus addPoint(Player player) throws SetAlreadyEndedException {
+        GameStatus gameStatus = deterMineResultOfSet(player);
+        if (gameStatus.equals(GameStatus.PLAYER1_WON_GAME)) {
+            this.scorePlayer1++;
+        }
+        if (gameStatus.equals(GameStatus.PLAYER2_WON_GAME)) {
+            this.scorePlayer2++;
+        }
+        return this.status;
+    }
+
+    public GameStatus deterMineResultOfSet(Player player) throws SetAlreadyEndedException {
+        if (this.status == GameStatus.PLAYER1_WON_SET || this.status == GameStatus.PLAYER2_WON_SET) {
+            throw new SetAlreadyEndedException();
+        }
+        Game mostRecentGame = this.games.get(games.size() - 1);
+        GameStatus gameStatus = mostRecentGame.calculateScoreOfGame(player);
+
+        if (this.scorePlayer1 >= 6 && this.scorePlayer2 <= (this.scorePlayer1 - 2)) {
+            return this.status = GameStatus.PLAYER1_WON_SET;
+        }
+        if (this.scorePlayer2 >= 6 && this.scorePlayer1 <= (this.scorePlayer2 - 2)) {
+            return this.status = GameStatus.PLAYER2_WON_SET;
+        }
+        return gameStatus;
     }
 }

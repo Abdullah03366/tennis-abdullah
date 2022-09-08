@@ -20,8 +20,7 @@ public class PlayerService {
 
     public Player newPlayer(PlayerDTO playerDTO) {
         Player player = new Player(playerDTO.name);
-        this.playerRepository.save(player);
-        return player;
+        return this.playerRepository.save(player);
     }
 
     public Player setPlayer(PlayerDTO playerDTO, long id) throws PlayerNotFoundException {

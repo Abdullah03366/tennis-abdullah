@@ -30,18 +30,18 @@ public class PlayerController {
     }
 
     @PutMapping("/{id}")
-    public Player updatePlayer(@RequestBody PlayerDTO playerDTO, @PathVariable long playerId) {
+    public Player updatePlayer(@RequestBody PlayerDTO playerDTO, @PathVariable long id) {
         try {
-            return playerService.setPlayer(playerDTO, playerId);
+            return playerService.setPlayer(playerDTO, id);
         } catch (PlayerNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
-    public boolean deletePlayer(@PathVariable long playerId) {
+    public boolean deletePlayer(@PathVariable long id) {
         try {
-            return playerService.deletePlayer(playerId);
+            return playerService.deletePlayer(id);
         } catch (PlayerNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
