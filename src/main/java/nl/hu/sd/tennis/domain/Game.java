@@ -1,12 +1,13 @@
 package nl.hu.sd.tennis.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 @Entity(name = "games")
-public class Game {
+public class Game implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long gameId;
@@ -33,5 +34,12 @@ public class Game {
         return false;
     }
 
+    public long getGameId() {
+        return gameId;
+    }
+
+    public Map<Player, ArrayList<Point>> getPointsOfPlayers() {
+        return pointsOfPlayers;
+    }
 
 }

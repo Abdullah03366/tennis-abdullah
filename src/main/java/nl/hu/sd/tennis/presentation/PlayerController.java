@@ -11,7 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tennis")
+@RequestMapping("/players")
 public class PlayerController {
     private final PlayerService playerService;
 
@@ -19,18 +19,18 @@ public class PlayerController {
         this.playerService = playerService;
     }
 
-    @GetMapping("/players")
+    @GetMapping()
     public List<Player> getAllPlayers(){
         return playerService.findAllPlayers();
     }
 
-    @PostMapping("/players/new")
-    public Player newPlayer(PlayerDTO playerDTO) {
+    @PostMapping("/new")
+    public Player newPlayer(@RequestBody PlayerDTO playerDTO) {
         return playerService.newPlayer(playerDTO);
     }
 
-    @PutMapping("/players/{id}")
-    public Player updatePlayer(PlayerDTO playerDTO, @PathVariable long playerId) {
+    @PutMapping("/{id}")
+    public Player updatePlayer(@RequestBody PlayerDTO playerDTO, @PathVariable long playerId) {
         try {
             return playerService.setPlayer(playerDTO, playerId);
         } catch (PlayerNotFoundException e) {
@@ -38,7 +38,7 @@ public class PlayerController {
         }
     }
 
-    @DeleteMapping("/players/{id}")
+    @DeleteMapping("/{id}")
     public boolean deletePlayer(@PathVariable long playerId) {
         try {
             return playerService.deletePlayer(playerId);

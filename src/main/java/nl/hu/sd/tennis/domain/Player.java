@@ -1,12 +1,10 @@
 package nl.hu.sd.tennis.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity(name = "players")
-public class Player {
+public class Player implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long playerId;
@@ -16,6 +14,10 @@ public class Player {
 
     public Player(String name) {
         this.name = name;
+    }
+
+    public long getPlayerId() {
+        return playerId;
     }
 
     public String getName() {

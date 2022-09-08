@@ -14,7 +14,6 @@ import java.util.List;
 public class PlayerService {
     private final PlayerRepository playerRepository;
 
-
     public PlayerService(PlayerRepository playerRepository) {
         this.playerRepository = playerRepository;
     }
@@ -35,6 +34,10 @@ public class PlayerService {
         Player player = this.playerRepository.findByPlayerId(id).orElseThrow(PlayerNotFoundException::new);
         this.playerRepository.delete(player);
         return true;
+    }
+
+    public Player findPlayerById(long id) throws PlayerNotFoundException {
+        return this.playerRepository.findByPlayerId(id).orElseThrow(PlayerNotFoundException::new);
     }
 
     public List<Player> findAllPlayers() {
