@@ -70,10 +70,11 @@
 				<version>3.0.3</version>
 				<configuration>
 					<appName>tennis-abdullah-sanli</appName>
+					<processTypes>
+						<web>java $JAVA_OPTS -cp target/classes:target/dependency/* Main</web>
+					</processTypes>
 				</configuration>
-				<processTypes>
-					<web>java $JAVA_OPTS -cp target/classes:target/dependency/* Main</web>
-				</processTypes>
+
 			</plugin>
 		</plugins>
 	</build>
